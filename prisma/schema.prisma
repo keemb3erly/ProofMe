@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum EntityType {
+  PHONE
+  BANK
+  USERNAME
+  BUSINESS
+}
+
+enum ReportStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id           String   @id @default(uuid())
+  fullName     String
+  email        String   @unique
+  password     String
+  role         UserRole @default(USER)
+  createdAt    DateTime @default(now())
+
+  reports      Report[]
+  adminActions AdminAction[]
+}
+
+model Entity {
+  id           String     @id @default(uuid())
+  value        String
+  entityType   EntityType
+
+  trustScore   Int        @default(100)
+  totalReports Int @default(0)
+  riskLevel    RiskLevel  @default(LOW)
+
+  createdAt    DateTime   @default(now())
+
+  reports      Report[]
+}
+
+model Report {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  category      String
+  amountLost   Decimal?
+  incidentDate DateTime?
+  isAnonymous   Boolean      @default(true)
+
+  status        ReportStatus @default(PENDING)
+
+  createdAt     DateTime     @default(now())
+
+  userId        String
+  entityId      String
+
+  user          User         @relation(fields: [userId], references: [id])
+  entity        Entity       @relation(fields: [entityId], references: [id])
+
+  evidence      Evidence[]
+}
+
+model Evidence {
+  id          String   @id @default(uuid())
+  fileUrl     String
+
+  reportId    String
+
+  report      Report   @relation(fields: [reportId], references: [id])
+
+  createdAt   DateTime @default(now())
+}
+
+model AdminAction {
+  id          String   @id @default(uuid())
+
+  action      String
+
+  adminId     String
+
+  admin       User     @relation(fields: [adminId], references: [id])
+
+  createdAt   DateTime @default(now())
+}
