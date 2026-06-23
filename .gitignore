@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Prisma generated files
+src/generated/prisma/query_engine-windows.dll.node
+src/generated/prisma/*.tmp*
+src/generated/prisma/query_engine-*
+
+# Next.js
+.next/
+
+# Environment variables
+.env
