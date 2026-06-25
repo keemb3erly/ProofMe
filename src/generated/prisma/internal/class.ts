@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "C:\\Users\\USER\\Desktop\\ProofMe\\src\\generated\\prisma",
+      "value": "/Users/mac/Desktop/ProofMe/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -32,12 +32,12 @@ const config: runtime.GetPrismaClientConfig = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\USER\\Desktop\\ProofMe\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/mac/Desktop/ProofMe/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
