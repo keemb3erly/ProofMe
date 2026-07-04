@@ -13,7 +13,6 @@ interface EntityCardProps {
 }
 
 export function EntityCard({ entity, className = "" }: EntityCardProps) {
-  // Helper to render type icons
   const renderTypeIcon = (type: string) => {
     switch (type) {
       case "PHONE":
@@ -50,10 +49,9 @@ export function EntityCard({ entity, className = "" }: EntityCardProps) {
   };
 
   return (
-    <Card className={`bg-slate-900/40 border-slate-800/80 hover:border-slate-700/60 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm p-5 flex flex-col md:flex-row md:items-center justify-between gap-6 ${className}`}>
-      {/* Entity Info */}
+    <Card className={`bg-white border-slate-200 hover:border-slate-300 shadow-sm transition-all duration-300 p-5 flex flex-col md:flex-row md:items-center justify-between gap-6 ${className}`}>
       <div className="flex items-start gap-4 flex-1">
-        <div className="w-10 h-10 bg-slate-850 border border-slate-750 text-slate-400 rounded-xl flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 bg-slate-100 border border-slate-200 text-slate-500 rounded-xl flex items-center justify-center shrink-0">
           {renderTypeIcon(entity.entityType)}
         </div>
         
@@ -65,18 +63,17 @@ export function EntityCard({ entity, className = "" }: EntityCardProps) {
             <RiskBadge level={entity.riskLevel} />
           </div>
           
-          <h3 className="text-lg font-mono font-bold text-slate-100 truncate break-all">
+          <h3 className="text-lg font-mono font-bold text-slate-900 truncate break-all">
             {entity.value}
           </h3>
           
-          <span className="block text-xs text-slate-500 font-semibold">
+          <span className="block text-xs text-slate-400 font-semibold">
             Flags: {entity.totalReports} verified scam reports
           </span>
         </div>
       </div>
 
-      {/* Trust Score & CTA */}
-      <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 border-slate-850 pt-4 md:pt-0 shrink-0">
+      <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 border-slate-200 pt-4 md:pt-0 shrink-0">
         <TrustScoreCircle score={entity.trustScore} size="sm" />
         
         <Link href={`/entity/${entity.id}`}>

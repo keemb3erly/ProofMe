@@ -6,9 +6,7 @@ const TOKEN_KEY = "token";
 export function saveSession(user: User, token?: string): void {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(SESSION_KEY, JSON.stringify(user));
-  if (token) {
-    window.localStorage.setItem(TOKEN_KEY, token);
-  }
+  window.localStorage.setItem(TOKEN_KEY, token || user.id);
 }
 
 export function readSession(): User | null {

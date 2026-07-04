@@ -2,43 +2,39 @@ import React from "react";
 import Link from "next/link";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="w-full bg-slate-950 border-t border-slate-900 mt-auto">
-      <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Brand */}
+    <footer className="bg-slate-50 border-t border-slate-200 py-8 px-4">
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2">
-          <span className="text-lg font-black bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent tracking-tight">
+          <span className="text-lg font-black text-primary tracking-tight">
             ProofMe
           </span>
-          <span className="text-[10px] text-slate-500 font-medium">
-            © {currentYear} All rights reserved.
+          <span className="text-[10px] text-slate-400 font-medium">
+            &copy; {new Date().getFullYear()}
           </span>
         </div>
 
-        {/* Links */}
-        <div className="flex flex-wrap justify-center gap-6 text-xs text-slate-500 font-semibold">
-          <Link href="/" className="hover:text-slate-300 transition">
+        <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-slate-500">
+          <Link href="/" className="hover:text-slate-700 transition">
             Home
           </Link>
-          <Link href="/report" className="hover:text-slate-300 transition">
+          <Link href="/report" className="hover:text-slate-700 transition">
             Report Scam
           </Link>
           <a
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-slate-300 transition"
+            className="hover:text-slate-700 transition"
           >
             GitHub
           </a>
-          <span className="hover:text-slate-300 cursor-pointer transition">
+          <a href="#" className="hover:text-slate-700 transition">
             Privacy Policy
-          </span>
-          <span className="hover:text-slate-300 cursor-pointer transition">
+          </a>
+          <a href="#" className="hover:text-slate-700 transition">
             Terms of Service
-          </span>
+          </a>
         </div>
       </div>
     </footer>

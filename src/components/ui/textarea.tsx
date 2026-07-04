@@ -6,28 +6,25 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 }
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className = "", label, error, ...props }, ref) => {
+  ({ className = "", label, error, id, ...props }, ref) => {
     return (
-      <div className="space-y-2 w-full">
+      <div className="space-y-1.5">
         {label && (
-          <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          <label htmlFor={id} className="block text-sm font-medium text-slate-700">
             {label}
           </label>
         )}
         <textarea
           ref={ref}
-          className={`w-full bg-slate-950/80 border rounded-xl px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 transition duration-200 min-h-[120px] ${
+          id={id}
+          className={`w-full rounded-xl bg-white border px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition focus:outline-none ${
             error
-              ? "border-rose-500/50 focus:ring-rose-500/30"
-              : "border-slate-800 focus:border-blue-500 focus:ring-blue-500/20"
-          } ${className}`}
+              ? "border-rose-300 focus:ring-rose-500/30 focus:border-rose-400"
+              : "border-slate-200 focus:border-primary focus:ring-primary/20"
+          } focus:ring-2 ${className}`}
           {...props}
         />
-        {error && (
-          <p className="text-xs text-rose-400 mt-1 font-medium animate-fadeIn">
-            {error}
-          </p>
-        )}
+        {error && <p className="text-xs text-rose-600">{error}</p>}
       </div>
     );
   }

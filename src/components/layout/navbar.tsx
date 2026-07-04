@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { readSession, clearSession, isAdmin } from "@/lib/auth";
+import { readSession, clearSession } from "@/lib/auth";
 import { User } from "@/types/auth";
 import { Button } from "@/components/ui/button";
 
@@ -14,7 +14,6 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Read session on mount to handle hydration safely
     setUser(readSession());
   }, []);
 
@@ -28,59 +27,51 @@ export function Navbar() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-900 shadow-sm">
+    <nav className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-xl font-black bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent tracking-tight">
+          <span className="text-xl font-black text-primary tracking-tight">
             ProofMe
-          </span>
-          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-900 border border-slate-800 px-1.5 py-0.5 rounded-md group-hover:border-slate-700 transition">
-            Beta
           </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-400">
+        <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-500">
           <Link
             href="/"
-            className={`hover:text-slate-200 transition ${
-              isActive("/") ? "text-slate-100" : ""
+            className={`hover:text-slate-900 transition ${
+              isActive("/") ? "text-slate-900" : ""
             }`}
           >
             Verify Search
           </Link>
           <Link
             href="/report"
-            className={`hover:text-slate-200 transition ${
-              isActive("/report") ? "text-slate-100" : ""
+            className={`hover:text-slate-900 transition ${
+              isActive("/report") ? "text-slate-900" : ""
             }`}
           >
             Report Scam
           </Link>
-          {user && (
+          {user && user.role === "ADMIN" && (
             <Link
-              href={user.role === "ADMIN" ? "/admin/dashboard" : "/dashboard"}
-              className={`hover:text-slate-200 transition ${
-                isActive("/admin/dashboard") || isActive("/dashboard")
-                  ? "text-slate-100"
-                  : ""
+              href="/admin/dashboard"
+              className={`hover:text-slate-900 transition ${
+                isActive("/admin/dashboard") ? "text-slate-900" : ""
               }`}
             >
-              Dashboard
+              Admin Dashboard
             </Link>
           )}
         </div>
 
-        {/* Desktop Auth Controls */}
         <div className="hidden md:flex items-center gap-4">
           {user ? (
             <div className="flex items-center gap-3">
               <span className="text-xs text-slate-500 font-medium">
-                Signed in as <strong className="text-slate-300 font-semibold">{user.fullName}</strong>
+                Signed in as <strong className="text-slate-900 font-semibold">{user.fullName}</strong>
               </span>
               {user.role === "ADMIN" && (
-                <span className="text-[9px] bg-purple-500/10 text-purple-400 border border-purple-500/25 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                <span className="text-[9px] bg-primary/10 text-primary border border-primary/25 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
                   Admin
                 </span>
               )}
@@ -104,10 +95,9 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile menu button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition focus:outline-none"
+          className="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition focus:outline-none"
           aria-label="Toggle mobile menu"
         >
           {isMobileMenuOpen ? (
@@ -122,15 +112,14 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-slate-950 border-t border-slate-900 px-4 py-4 space-y-4 shadow-xl animate-fadeIn">
-          <div className="flex flex-col gap-3 font-semibold text-slate-400 text-sm">
+        <div className="md:hidden bg-white border-t border-slate-200 px-4 py-4 space-y-4 shadow-xl">
+          <div className="flex flex-col gap-3 font-semibold text-slate-500 text-sm">
             <Link
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`py-1.5 hover:text-slate-200 transition ${
-                isActive("/") ? "text-slate-100" : ""
+              className={`py-1.5 hover:text-slate-900 transition ${
+                isActive("/") ? "text-slate-900" : ""
               }`}
             >
               Verify Search
@@ -138,34 +127,32 @@ export function Navbar() {
             <Link
               href="/report"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`py-1.5 hover:text-slate-200 transition ${
-                isActive("/report") ? "text-slate-100" : ""
+              className={`py-1.5 hover:text-slate-900 transition ${
+                isActive("/report") ? "text-slate-900" : ""
               }`}
             >
               Report Scam
             </Link>
-            {user && (
+            {user && user.role === "ADMIN" && (
               <Link
-                href={user.role === "ADMIN" ? "/admin/dashboard" : "/dashboard"}
+                href="/admin/dashboard"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`py-1.5 hover:text-slate-200 transition ${
-                  isActive("/admin/dashboard") || isActive("/dashboard")
-                    ? "text-slate-100"
-                    : ""
+                className={`py-1.5 hover:text-slate-900 transition ${
+                  isActive("/admin/dashboard") ? "text-slate-900" : ""
                 }`}
               >
-                Dashboard
+                Admin Dashboard
               </Link>
             )}
           </div>
 
-          <div className="pt-4 border-t border-slate-900 flex flex-col gap-3">
+          <div className="pt-4 border-t border-slate-200 flex flex-col gap-3">
             {user ? (
               <div className="space-y-3">
                 <div className="text-xs text-slate-500 font-medium">
-                  Signed in as <strong className="text-slate-300 font-semibold">{user.fullName}</strong>
+                  Signed in as <strong className="text-slate-900 font-semibold">{user.fullName}</strong>
                   {user.role === "ADMIN" && (
-                    <span className="ml-2 text-[9px] bg-purple-500/10 text-purple-400 border border-purple-500/25 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                    <span className="ml-2 text-[9px] bg-primary/10 text-primary border border-primary/25 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
                       Admin
                     </span>
                   )}

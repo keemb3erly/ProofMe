@@ -38,20 +38,20 @@ export function ReportsPreview() {
   ];
 
   return (
-    <section className="w-full py-20 bg-slate-950 border-t border-slate-900 flex flex-col items-center">
+    <section className="w-full py-20 bg-slate-50 border-t border-slate-200 flex flex-col items-center">
       <div className="w-full max-w-4xl px-4 space-y-12">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
           <div className="space-y-3 text-left">
-            <h2 className="text-3xl font-black tracking-tight text-slate-100">
+            <h2 className="text-3xl font-black tracking-tight text-slate-900">
               Recent Scam Alerts
             </h2>
-            <p className="text-slate-400 max-w-xl text-sm leading-relaxed">
+            <p className="text-slate-500 max-w-xl text-sm leading-relaxed">
               Approved scam incidents reported by our community and vetted by ProofMe moderation teams.
             </p>
           </div>
           
           <Link href="/report" className="shrink-0 w-full sm:w-auto">
-            <Button variant="secondary" size="md" className="w-full sm:w-auto h-11 border-slate-800 hover:bg-slate-850">
+            <Button variant="secondary" size="md" className="w-full sm:w-auto h-11 border-slate-200 hover:bg-slate-100">
               Report Scam Incident
             </Button>
           </Link>

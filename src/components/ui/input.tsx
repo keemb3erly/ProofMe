@@ -6,58 +6,46 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className = "", label, error, type = "text", ...props }, ref) => {
-    const isCheckbox = type === "checkbox";
-
-    if (isCheckbox) {
+  ({ className = "", label, error, type, id, ...props }, ref) => {
+    if (type === "checkbox") {
       return (
-        <div className="space-y-1">
-          <label className="flex items-start gap-3 cursor-pointer select-none group">
-            <input
-              type="checkbox"
-              ref={ref}
-              className={`mt-0.5 w-4 h-4 rounded bg-slate-950 border border-slate-800 text-blue-500 focus:ring-blue-500/20 focus:ring-offset-slate-950 accent-blue-500 transition duration-200 cursor-pointer ${
-                error ? "border-rose-500/50" : ""
-              } ${className}`}
-              {...props}
-            />
-            {label && (
-              <span className="text-sm text-slate-400 font-medium leading-tight group-hover:text-slate-300 transition duration-150">
-                {label}
-              </span>
-            )}
-          </label>
-          {error && (
-            <p className="text-xs text-rose-400 font-medium pl-7 animate-fadeIn">
-              {error}
-            </p>
+        <div className="flex items-start gap-3">
+          <input
+            ref={ref}
+            id={id}
+            type="checkbox"
+            className={`mt-1 h-4 w-4 rounded border-slate-300 bg-white text-primary focus:ring-primary/20 accent-primary ${error ? "border-rose-400" : ""} ${className}`}
+            {...props}
+          />
+          {label && (
+            <label htmlFor={id} className="text-sm text-slate-600 cursor-pointer">
+              {label}
+            </label>
           )}
+          {error && <p className="text-xs text-rose-600 mt-1">{error}</p>}
         </div>
       );
     }
 
     return (
-      <div className="space-y-2 w-full">
+      <div className="space-y-1.5">
         {label && (
-          <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          <label htmlFor={id} className="block text-sm font-medium text-slate-700">
             {label}
           </label>
         )}
         <input
-          type={type}
           ref={ref}
-          className={`w-full bg-slate-950/80 border rounded-xl px-4 py-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 transition duration-200 ${
+          id={id}
+          type={type}
+          className={`w-full rounded-xl bg-white border px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition focus:outline-none ${
             error
-              ? "border-rose-500/50 focus:ring-rose-500/30"
-              : "border-slate-800 focus:border-blue-500 focus:ring-blue-500/20"
-          } ${className}`}
+              ? "border-rose-300 focus:ring-rose-500/30 focus:border-rose-400"
+              : "border-slate-200 focus:border-primary focus:ring-primary/20"
+          } focus:ring-2 ${className}`}
           {...props}
         />
-        {error && (
-          <p className="text-xs text-rose-400 mt-1 font-medium animate-fadeIn">
-            {error}
-          </p>
-        )}
+        {error && <p className="text-xs text-rose-600">{error}</p>}
       </div>
     );
   }

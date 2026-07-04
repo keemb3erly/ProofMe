@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/api-auth";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const authResult = await requireAdmin(request);
+    if (authResult.response) {
+      return authResult.response;
+    }
+
     const reports = await prisma.report.findMany({
       where: {
         status: "PENDING",

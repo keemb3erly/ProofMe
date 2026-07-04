@@ -33,7 +33,7 @@ export function SearchBar({
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="bg-slate-950 border border-slate-800 text-slate-300 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-xs font-semibold uppercase tracking-wider cursor-pointer"
+          className="bg-white border border-slate-200 text-slate-700 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 text-xs font-semibold uppercase tracking-wider cursor-pointer"
         >
           <option value="PHONE">Phone</option>
           <option value="BANK">Bank</option>

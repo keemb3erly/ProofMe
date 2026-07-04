@@ -7,7 +7,6 @@ interface TrustScoreCircleProps {
 }
 
 export function TrustScoreCircle({ score, size = "md", className = "" }: TrustScoreCircleProps) {
-  // Map size constraints
   const sizeClasses = {
     sm: {
       container: "w-16 h-16",
@@ -42,28 +41,24 @@ export function TrustScoreCircle({ score, size = "md", className = "" }: TrustSc
   const circumference = 2 * Math.PI * config.radius;
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
-  // Determine threshold colors
-  let colorClass = "stroke-emerald-500 text-emerald-400";
+  let colorClass = "stroke-emerald-500 text-emerald-700";
   if (score < 50) {
-    colorClass = "stroke-rose-500 text-rose-400";
+    colorClass = "stroke-rose-500 text-rose-700";
   } else if (score < 80) {
-    colorClass = "stroke-amber-500 text-amber-400";
+    colorClass = "stroke-amber-500 text-amber-700";
   }
 
   return (
     <div className={`relative ${config.container} ${className}`}>
-      {/* SVG Radial Gauge */}
       <svg className="w-full h-full transform -rotate-90" viewBox={config.viewBox}>
-        {/* Track Circle */}
         <circle
           cx={config.center}
           cy={config.center}
           r={config.radius}
-          className="stroke-slate-800/80"
+          className="stroke-slate-200"
           strokeWidth={config.strokeWidth}
           fill="transparent"
         />
-        {/* Progress Arc */}
         <circle
           cx={config.center}
           cy={config.center}
@@ -76,12 +71,11 @@ export function TrustScoreCircle({ score, size = "md", className = "" }: TrustSc
           fill="transparent"
         />
       </svg>
-      {/* Absolute Center Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className={`text-slate-50 tracking-tight leading-none ${config.scoreText}`}>
+        <span className={`text-slate-900 tracking-tight leading-none ${config.scoreText}`}>
           {score}
         </span>
-        <span className={`text-slate-500 uppercase tracking-wider font-bold mt-0.5 ${config.label}`}>
+        <span className={`text-slate-400 uppercase tracking-wider font-bold mt-0.5 ${config.label}`}>
           Score
         </span>
       </div>

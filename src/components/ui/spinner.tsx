@@ -6,18 +6,15 @@ interface SpinnerProps {
 }
 
 export function Spinner({ size = "md", className = "" }: SpinnerProps) {
-  const sizeClasses = {
+  const sizes: Record<string, string> = {
     sm: "w-4 h-4 border-2",
-    md: "w-6 h-6 border-2",
-    lg: "w-10 h-10 border-3",
+    md: "w-8 h-8 border-[3px]",
+    lg: "w-12 h-12 border-4",
   };
 
   return (
     <div
-      className={`rounded-full border-slate-800 border-t-blue-500 animate-spin ${sizeClasses[size]} ${className}`}
-      role="status"
-    >
-      <span className="sr-only">Loading...</span>
-    </div>
+      className={`${sizes[size]} rounded-full border-slate-200 border-t-primary animate-spin ${className}`}
+    />
   );
 }

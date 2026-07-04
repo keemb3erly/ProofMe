@@ -68,18 +68,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative flex flex-1 items-center justify-center bg-slate-950 px-4 py-12 overflow-hidden min-h-screen">
-      {/* Background glow meshes */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
-
+    <div className="relative flex flex-1 items-center justify-center bg-slate-50 px-4 py-12 overflow-hidden min-h-screen">
       {/* Main Glass Card */}
       <Card className="relative w-full max-w-md z-10">
         
         {/* Header / Logo */}
         <CardHeader className="text-center">
           <Link href="/" className="inline-flex items-center gap-2 mb-3 justify-center">
-            <span className="text-2xl font-black bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent tracking-tight">
+            <span className="text-2xl font-black text-primary tracking-tight">
               ProofMe
             </span>
           </Link>
@@ -91,14 +87,14 @@ export default function RegisterPage() {
 
         {/* Status Alerts */}
         {submitError && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-400 text-sm flex gap-2 items-start animate-fadeIn">
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex gap-2 items-start animate-fadeIn">
             <span className="text-base select-none mt-0.5">⚠️</span>
             <span>{submitError}</span>
           </div>
         )}
 
         {submitSuccess && (
-          <div className="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-sm flex gap-2 items-start animate-fadeIn">
+          <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm flex gap-2 items-start animate-fadeIn">
             <span className="text-base select-none mt-0.5">✓</span>
             <span>Registration successful! Redirecting to login...</span>
           </div>
@@ -146,7 +142,7 @@ export default function RegisterPage() {
                 tabIndex={-1}
                 onClick={() => setShowPassword(!showPassword)}
                 disabled={isSubmitting || submitSuccess}
-                className="absolute right-3.5 top-[38px] text-slate-500 hover:text-slate-400 select-none text-sm transition focus:outline-none"
+                className="absolute right-3.5 top-[38px] text-slate-400 hover:text-slate-500 select-none text-sm transition focus:outline-none"
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
@@ -169,7 +165,7 @@ export default function RegisterPage() {
                 tabIndex={-1}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 disabled={isSubmitting || submitSuccess}
-                className="absolute right-3.5 top-[38px] text-slate-500 hover:text-slate-400 select-none text-sm transition focus:outline-none"
+                className="absolute right-3.5 top-[38px] text-slate-400 hover:text-slate-500 select-none text-sm transition focus:outline-none"
               >
                 {showConfirmPassword ? "Hide" : "Show"}
               </button>
@@ -184,11 +180,11 @@ export default function RegisterPage() {
                 label={
                   <span>
                     I accept the{" "}
-                    <Link href="/terms" className="text-blue-400 hover:underline">
+                    <Link href="/terms" className="text-primary hover:underline">
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/privacy" className="text-blue-400 hover:underline">
+                    <Link href="/privacy" className="text-primary hover:underline">
                       Privacy Policy
                     </Link>
                   </span>
@@ -211,11 +207,11 @@ export default function RegisterPage() {
         </form>
 
         {/* Footer Link */}
-        <CardFooter className="mt-8 text-center text-sm text-slate-400">
+        <CardFooter className="mt-8 text-center text-sm text-slate-500">
           Already have an account?{" "}
           <Link 
             href="/login" 
-            className="font-semibold text-blue-400 hover:text-blue-300 transition hover:underline"
+            className="font-semibold text-primary hover:text-primary-hover transition hover:underline"
           >
             Sign in
           </Link>

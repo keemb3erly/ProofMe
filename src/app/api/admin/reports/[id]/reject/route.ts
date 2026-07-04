@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { RiskLevel } from "@/generated/prisma/client";
 import { requireAdmin } from "@/lib/api-auth";
 
 export async function PATCH(
@@ -19,9 +18,6 @@ export async function PATCH(
       where: {
         id: reportId,
       },
-      include: {
-        entity: true,
-      },
     });
 
     if (!report) {
@@ -31,26 +27,11 @@ export async function PATCH(
       );
     }
 
-    if (report.status === "APPROVED") {
+    if (report.status === "REJECTED") {
       return NextResponse.json(
-        { error: "Report already approved" },
+        { error: "Report already rejected" },
         { status: 400 }
       );
-    }
-
-    const newTotalReports = report.entity.totalReports + 1;
-
-    const newTrustScore = Math.max(
-      100 - newTotalReports * 10,
-      0
-    );
-
-    let newRiskLevel: RiskLevel = "LOW";
-
-    if (newTrustScore < 50) {
-      newRiskLevel = "HIGH";
-    } else if (newTrustScore < 80) {
-      newRiskLevel = "MEDIUM";
     }
 
     await prisma.report.update({
@@ -58,29 +39,15 @@ export async function PATCH(
         id: reportId,
       },
       data: {
-        status: "APPROVED",
-      },
-    });
-
-    await prisma.entity.update({
-      where: {
-        id: report.entityId,
-      },
-      data: {
-        totalReports: newTotalReports,
-        trustScore: newTrustScore,
-        riskLevel: newRiskLevel,
+        status: "REJECTED",
       },
     });
 
     return NextResponse.json({
-      message: "Report approved successfully",
-      trustScore: newTrustScore,
-      totalReports: newTotalReports,
-      riskLevel: newRiskLevel,
+      message: "Report rejected successfully",
     });
   } catch (error) {
-    console.error(error);
+    console.error("Rejection error:", error);
 
     return NextResponse.json(
       { error: "Internal server error" },

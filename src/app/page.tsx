@@ -1,6 +1,5 @@
 import {
   HeroSection,
-  SearchSection,
   FeaturesSection,
   MetricsSection,
   ReportsPreview,
@@ -17,7 +16,6 @@ export default function HomePage() {
 
       <main>
         <HeroSection />
-        <SearchSection />
         <FeaturesSection />
         <MetricsSection />
         <ReportsPreview />
