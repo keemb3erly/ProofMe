@@ -7,17 +7,21 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const { email, password } = body;
+    const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
 
-    if (!email || !password) {
+    if (!normalizedEmail || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
         { status: 400 }
       );
     }
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        email,
+        email: {
+          equals: normalizedEmail,
+          mode: "insensitive",
+        },
       },
     });
 

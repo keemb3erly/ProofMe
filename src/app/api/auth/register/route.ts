@@ -7,17 +7,21 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const { fullName, email, password } = body;
+    const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
 
-    if (!fullName || !email || !password) {
+    if (!fullName || !normalizedEmail || !password) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
       );
     }
 
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findFirst({
       where: {
-        email,
+        email: {
+          equals: normalizedEmail,
+          mode: "insensitive",
+        },
       },
     });
 
@@ -33,7 +37,7 @@ export async function POST(request: Request) {
     const user = await prisma.user.create({
       data: {
         fullName,
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
       },
     });

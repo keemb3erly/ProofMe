@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/login.schema";
 import type { z } from "zod";
+import axios from "axios";
 import { api } from "@/lib/api";
 import { saveSession, getRedirectPath } from "@/lib/auth";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -14,6 +15,29 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 type LoginFields = z.infer<typeof loginSchema>;
+type ApiErrorResponse = {
+  error?: string;
+  message?: string;
+};
+
+function getLoginErrorMessage(error: unknown): string {
+  if (!axios.isAxiosError<ApiErrorResponse>(error)) {
+    return "Failed to authenticate. Please try again.";
+  }
+
+  if (!error.response) {
+    return "Network error: Please check your connection and try again.";
+  }
+
+  const serverMessage = error.response.data?.error ?? error.response.data?.message;
+  if (serverMessage) return serverMessage;
+
+  if (error.response.status === 401) {
+    return "Invalid credentials. Please check your email and password.";
+  }
+
+  return "An unexpected server error occurred. Please try again later.";
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -53,13 +77,8 @@ export default function LoginPage() {
         const dest = getRedirectPath(user);
         router.push(dest);
       }, 1000);
-    } catch (error: any) {
-      console.error("Login failure:", error);
-      if (error.response && error.response.data && error.response.data.error) {
-        setSubmitError(error.response.data.error);
-      } else {
-        setSubmitError("Failed to authenticate. Please check your credentials.");
-      }
+    } catch (error: unknown) {
+      setSubmitError(getLoginErrorMessage(error));
     }
   };
 
@@ -135,6 +154,16 @@ export default function LoginPage() {
               </button>
             </div>
 
+            {/* Forgot Password Link */}
+            <div className="text-right -mt-2">
+              <Link
+                href="/forgot-password"
+                className="text-sm font-medium text-primary hover:text-primary-hover transition hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
             {/* Submit Button */}
             <Button
               type="submit"
@@ -149,7 +178,7 @@ export default function LoginPage() {
 
         {/* Footer info */}
         <CardFooter className="mt-8 text-center text-sm text-slate-500">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link 
             href="/register" 
             className="font-semibold text-primary hover:text-primary-hover transition hover:underline"

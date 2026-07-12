@@ -1,5 +1,20 @@
 import axios from "axios";
 
+type ApiErrorPayload = {
+  error?: unknown;
+  message?: unknown;
+};
+
+function getErrorMessage(data: unknown): string | undefined {
+  if (!data || typeof data !== "object") return undefined;
+
+  const payload = data as ApiErrorPayload;
+  if (typeof payload.error === "string") return payload.error;
+  if (typeof payload.message === "string") return payload.message;
+
+  return undefined;
+}
+
 export const api = axios.create({
   baseURL: "/api",
   headers: {
@@ -27,7 +42,15 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Call Error:", error.response?.data || error.message);
+    if (axios.isAxiosError(error)) {
+      console.warn("API request failed:", {
+        status: error.response?.status,
+        message: getErrorMessage(error.response?.data) ?? error.message,
+      });
+    } else {
+      console.error("API Call Error:", error);
+    }
+
     return Promise.reject(error);
   }
 );
