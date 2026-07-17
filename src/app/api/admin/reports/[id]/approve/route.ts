@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { RiskLevel } from "@/generated/prisma/client";
+import { RiskLevel } from "@prisma/client";
 import { requireAdmin } from "@/lib/api-auth";
 
 export async function PATCH(

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const BASE_URL = "http://localhost:3000/api";
 const REGULAR_USER_ID = "59ee4958-7c37-4e2a-a68e-e760b6182572";

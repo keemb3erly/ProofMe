@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { User } from "@/generated/prisma/client";
+import type { User } from "@prisma/client";
 
 export async function requireAuth(
   request: Request
