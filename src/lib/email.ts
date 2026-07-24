@@ -121,3 +121,53 @@ export async function sendPasswordResetEmail({
     throw error;
   }
 }
+export async function sendVerificationEmail({
+  email,
+  verificationLink,
+}: {
+  email: string;
+  verificationLink: string;
+}) {
+const brevo = getBrevoClient();
+
+try {return await brevo.transactionalEmails.sendTransacEmail({
+  sender: {
+    name: process.env.BREVO_SENDER_NAME || "ProofMe",
+    email: process.env.BREVO_SENDER_EMAIL || "el.ucheee@gmail.com",
+  },
+  to: [{ email }],
+  subject: "Verify your ProofMe account",
+  htmlContent: `
+    <h2>Verify your email address</h2>
+
+    <p>
+      Thank you for creating a ProofMe account.
+    </p>
+
+    <p>
+      Please click the button below to verify your email address before logging in.
+    </p>
+
+    <p>
+      <a href="${verificationLink}">
+        Verify Email
+      </a>
+    </p>
+
+    <p>
+      This verification link expires in 1 hour.
+    </p>
+  `,
+});
+
+} catch (error) {
+  if (error instanceof BrevoError) {
+    throw new EmailDeliveryError(
+      getBrevoErrorMessage(error),
+      error.statusCode
+    );
+  }
+
+  throw error;
+}
+}

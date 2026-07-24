@@ -50,8 +50,8 @@ export default function RegisterPage() {
       setSubmitSuccess(true);
 
       setTimeout(() => {
-        router.push("/login");
-      }, 1500);
+        router.push("/login?registered=true");
+      }, 2500);
     } catch (error: any) {
       console.error("Registration error:", error);
       
@@ -96,7 +96,7 @@ export default function RegisterPage() {
         {submitSuccess && (
           <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm flex gap-2 items-start animate-fadeIn">
             <span className="text-base select-none mt-0.5">✓</span>
-            <span>Registration successful! Redirecting to login...</span>
+            <span>Registration successful! A verification email has been sent. Redirecting to login...</span>
           </div>
         )}
 

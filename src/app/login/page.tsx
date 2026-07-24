@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,6 +44,16 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("registered") === "true") {
+      setRegistrationSuccess(true);
+      window.history.replaceState({}, "", "/login");
+    }
+  }, []);
 
   const {
     register,
@@ -105,6 +115,13 @@ export default function LoginPage() {
           <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex gap-2 items-start animate-fadeIn">
             <span className="text-base select-none mt-0.5">⚠️</span>
             <span>{submitError}</span>
+          </div>
+        )}
+
+        {registrationSuccess && (
+          <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm flex gap-2 items-start animate-fadeIn">
+            <span className="text-base select-none mt-0.5">✓</span>
+            <span>Your account was created. A verification email has been sent—please check your inbox before logging in.</span>
           </div>
         )}
 
